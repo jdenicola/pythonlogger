@@ -5,16 +5,27 @@ from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
 class LocalLogger:
-    def __init__(self, log_file, log_name, loglevel='debug', max_bytes=200000, max_files=10):
+    def __init__(self, log_file, log_name, loglevel='warning', max_bytes=200000, max_files=10):
         """
-        Uso:
-        # logger.debug('mensaje debug')
-        # log.info('mensaje info')
-        # log.warning('mensaje warning')
-        # log.error('mensaje error')
-        # log.critical('mensaje critical')
+        Python Logger: This script was made for logging as fast and simple as possible. Make sure you have write permission for your log file.
+        It's reccommended that you use an absolute route for your log file.
+        Multiple instances of this logger can be used (With same or different log_name)
+        Usage:
+        
+        from pythologger.logger import LocalLogger
+        log = LocalLogger(str(Path(__file__).resolve().parent) + '/log.log', 'Some-logger')
+        log.debug('mensaje debug')
+        log.info('mensaje info')
+        log.warning('mensaje warning')
+        log.error('mensaje error')
+        log.critical('mensaje critical')
+        
+        By default, it logs from WARNING to CRITICAL messages. If you want to change it, you can call SetLevel('debug') to log every message.
+        
+        Made by Juan Ignacio De Nicola. Feel free to redistribute or modify it as you wish.
         """
-        self.log_file = str(Path(__file__).resolve().parent)
+        
+        self.SetLevel(loglevel)
 
         self.__logger = logging.getLogger(log_name)
         fh = RotatingFileHandler(log_file, max_bytes, max_files)
@@ -24,15 +35,15 @@ class LocalLogger:
         self.__logger.addHandler(fh)
     
     def SetLevel(self, level):
-        if level == "debug":
+        if level.lower() == "debug":
             self.__logger.setLevel(logging.DEBUG)
-        if level == "info":
+        if level.lower() == "info":
             self.__logger.setLevel(logging.INFO)
-        if level == "warning":
+        if level.lower() == "warning":
             self.__logger.setLevel(logging.WARNING)
-        if level == "error":
+        if level.lower() == "error":
             self.__logger.setLevel(logging.ERROR)
-        if level == "critical":
+        if level.loewr() == "critical":
             self.__logger.setLevel(logging.CRITICAL)
 
     def debug(self, message):
