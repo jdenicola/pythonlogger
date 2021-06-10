@@ -12,7 +12,7 @@ class LocalLogger:
         Multiple instances of this logger can be used (With same or different log_name)
         Usage:
         
-        from pythologger.logger import LocalLogger
+        from pythonlogger.logger import LocalLogger
         log = LocalLogger(str(Path(__file__).resolve().parent) + '/log.log', 'Some-logger')
         log.debug('mensaje debug')
         log.info('mensaje info')
@@ -25,14 +25,14 @@ class LocalLogger:
         Made by Juan Ignacio De Nicola. Feel free to redistribute or modify it as you wish.
         """
         
-        self.SetLevel(loglevel)
-
         self.__logger = logging.getLogger(log_name)
         fh = RotatingFileHandler(log_file, max_bytes, max_files)
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
         fh.setFormatter(formatter)
         self.__logger.addHandler(fh)
+        self.SetLevel(loglevel)
+
     
     def SetLevel(self, level):
         if level.lower() == "debug":
@@ -43,7 +43,7 @@ class LocalLogger:
             self.__logger.setLevel(logging.WARNING)
         if level.lower() == "error":
             self.__logger.setLevel(logging.ERROR)
-        if level.loewr() == "critical":
+        if level.lower() == "critical":
             self.__logger.setLevel(logging.CRITICAL)
 
     def debug(self, message):
