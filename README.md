@@ -9,6 +9,7 @@ Multiple instances of this logger can be used (With same or different log_name)
 ## Sample usage:
 
 ```
+from pathlib import Path # This line is intended for using Path(), it is not required for LocalLogger
 from pythonlogger.logger import LocalLogger
 
 log = LocalLogger(str(Path(__file__).resolve().parent) + '/log.log', 'Some-logger')
